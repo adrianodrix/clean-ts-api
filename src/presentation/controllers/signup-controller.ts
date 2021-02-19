@@ -1,7 +1,7 @@
 export class SignUpController {
   handle (httpRequest: any): any {
     return {
-      statusCode: 405
+      statusCode: 406
     }
   }
 }
