@@ -31,7 +31,7 @@ export class SignUpController implements Controller {
       }
 
       // create a account
-      this.addAccount.add({
+      const account = this.addAccount.add({
         name,
         email,
         password
@@ -39,7 +39,7 @@ export class SignUpController implements Controller {
 
       return {
         statusCode: 200,
-        body: {}
+        body: account
       }
     } catch (error) {
       return serverError()
