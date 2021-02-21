@@ -5,6 +5,7 @@ module.exports = {
     '!<rootDir>/src/main/**'
   ],
   coverageDirectory: 'coverage',
+  collectCoverage: true,
   coverageProvider: 'babel',
   testEnvironment: 'node',
   // preset: '@shelf/jest-mongodb',

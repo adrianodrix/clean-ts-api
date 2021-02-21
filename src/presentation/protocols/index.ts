@@ -1,2 +1,2 @@
-export * from './controller'
-export * from './http'
+/* istanbul ignore next */ export * from './controller'
+/* istanbul ignore next */ export * from './http'
