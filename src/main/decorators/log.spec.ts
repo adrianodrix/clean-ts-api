@@ -1,3 +1,5 @@
+import { LogErrorRepository } from '@/data/protocols/log-error-repository'
+import { serverError } from '@/presentation/helpers/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { LogControllerDecorator } from './log'
 
@@ -15,17 +17,30 @@ class ControllerStub implements Controller {
   }
 }
 
+class LogErrorRepositoryStub implements LogErrorRepository {
+  async log (stack: string): Promise<void> {
+    return new Promise(resolve => resolve())
+  }
+}
+
 interface SutTypes {
   sut: LogControllerDecorator
   controllerStub: ControllerStub
+  logErrorRepositoryStub: LogErrorRepositoryStub
+}
+
+const makeLogErrorRepositoryStub = (): LogErrorRepository => {
+  return new LogErrorRepositoryStub()
 }
 
 const makeSut = (): SutTypes => {
   const controllerStub = new ControllerStub()
-  const sut = new LogControllerDecorator(controllerStub)
+  const logErrorRepositoryStub = makeLogErrorRepositoryStub()
+  const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub)
   return {
     sut,
-    controllerStub
+    controllerStub,
+    logErrorRepositoryStub
   }
 }
 
@@ -64,5 +79,28 @@ describe('Log Decorator', () => {
         password: 'any_password'
       }
     })
+  })
+
+  test('should call LogErrorRepository with correct error if controller returns a server error', async () => {
+    const { sut, controllerStub, logErrorRepositoryStub } = makeSut()
+
+    const fakeError = new Error()
+    fakeError.stack = 'any_stack'
+
+    const error = serverError(fakeError)
+    const logSpy = jest.spyOn(logErrorRepositoryStub, 'log')
+
+    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(new Promise(resolve => resolve(error)))
+
+    const httpRequest: HttpRequest = {
+      body: {
+        name: 'any_name@mail.com',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(logSpy).toHaveBeenCalledWith('any_stack')
   })
 })
