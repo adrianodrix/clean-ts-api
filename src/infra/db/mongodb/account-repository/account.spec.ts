@@ -1,4 +1,5 @@
 import { MongoHelper } from '../helpers/mongo-helper'
+import { AccountMongoRepository } from './account'
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
@@ -8,12 +9,6 @@ describe('Account Mongo Repository', () => {
   afterAll(async () => {
     await MongoHelper.disconnect()
   })
-
-  class AccountMongoRepository {
-    add (account: any): any {
-      return null
-    }
-  }
 
   const makeSut = (): AccountMongoRepository => {
     return new AccountMongoRepository()
