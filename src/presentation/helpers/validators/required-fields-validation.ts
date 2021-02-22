@@ -9,7 +9,6 @@ export class RequiredFieldValidation implements Validation {
 
   validate (input: any): Error {
     if (!input[this.fieldName]) {
-      /* istanbul ignore next */
       return new MissingParamError(this.fieldName)
     }
     return null as any
