@@ -30,6 +30,7 @@ export const MongoHelper = {
   },
 
   mapCollection: (collection: any[]): any[] => {
+    /* istanbul ignore next */
     return collection.map(c => MongoHelper.map(c))
   }
 }
