@@ -1,5 +1,5 @@
 import { Authentication, AuthenticationModel } from '@/domain/usecases/authentication'
-import { InvalidParamError, MissingParamError, ServerError } from '@/presentation/errors'
+import { MissingParamError, ServerError } from '@/presentation/errors'
 import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { Validation } from '@/presentation/protocols/validation'
 import { HttpRequest } from '../signup/signup-protocols'
