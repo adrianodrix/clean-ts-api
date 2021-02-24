@@ -2,7 +2,7 @@ import { HashComparer } from '@/data/protocols/criptography/hash-comparer'
 import { Encrypter } from '@/data/protocols/criptography/encrypter'
 import { LoadAccountByEmailRepo } from '@/data/protocols/db/load-account-by-email-repo'
 import { AuthenticationModel } from '@/domain/usecases/authentication'
-import { UpdateAccessTokenRepo } from '@/infra/db/mongodb/account-repository/update-access-token-repository'
+import { UpdateAccessTokenRepo } from '@/data/protocols/db/update-access-token-repository'
 import { AccountModel } from '../add-account/db-add-account-protocols'
 import { DbAuhentication } from './db-authentication'
 
@@ -25,7 +25,7 @@ class EncrypterStub implements Encrypter {
 }
 
 class UpdateAccessTokenRepoStub implements UpdateAccessTokenRepo {
-  async update (id: string, accessToken: string): Promise<void> {
+  async updateAccessToken (id: string, accessToken: string): Promise<void> {
 
   }
 }
@@ -154,14 +154,14 @@ describe('DBAuthentication UseCase', () => {
 
   test('should call UpdateAccessTokenRepo with correct values', async () => {
     const { sut, updateAccessTokenRepoStub } = makeSut()
-    const updateSpy = jest.spyOn(updateAccessTokenRepoStub, 'update')
+    const updateSpy = jest.spyOn(updateAccessTokenRepoStub, 'updateAccessToken')
     await sut.auth(makeFakeAuth())
     expect(updateSpy).toHaveBeenCalledWith('any_id', 'any_token')
   })
 
   test('should throw if UpdateAccessTokenRepo throws', async () => {
     const { sut, updateAccessTokenRepoStub } = makeSut()
-    jest.spyOn(updateAccessTokenRepoStub, 'update')
+    jest.spyOn(updateAccessTokenRepoStub, 'updateAccessToken')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
     const promise = sut.auth(makeFakeAuth())
     await expect(promise).rejects.toThrow()
