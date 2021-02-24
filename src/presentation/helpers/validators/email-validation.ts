@@ -3,13 +3,10 @@ import { EmailValidator } from '@/presentation/protocols/email-validator'
 import { Validation } from '@/presentation/protocols/validation'
 
 export class EmailValidation implements Validation {
-  private readonly fieldName: string
-  private readonly emailValidator: EmailValidator
-
-  constructor (fieldName: string, emailValidator: EmailValidator) {
-    this.emailValidator = emailValidator
-    this.fieldName = fieldName
-  }
+  constructor (
+    private readonly fieldName: string,
+    private readonly emailValidator: EmailValidator
+  ) {}
 
   validate (input: any): Error {
     if (!this.emailValidator.isValid(input[this.fieldName])) {

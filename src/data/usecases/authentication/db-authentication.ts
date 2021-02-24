@@ -5,22 +5,12 @@ import { Authentication, AuthenticationModel } from '@/domain/usecases/authentic
 import { UpdateAccessTokenRepo } from '@/data/protocols/db/account/update-access-token-repository'
 
 export class DbAuhentication implements Authentication {
-  private readonly loadAccountByEmailRepo: LoadAccountByEmailRepo
-  private readonly hashComparer: HashComparer
-  private readonly encrypter: Encrypter
-  private readonly updateAccessTokenRepo: UpdateAccessTokenRepo
-
   constructor (
-    loadAccountByEmailRepo: LoadAccountByEmailRepo,
-    hashComparer: HashComparer,
-    encrypter: Encrypter,
-    updateAccessTokenRepo: UpdateAccessTokenRepo
-  ) {
-    this.loadAccountByEmailRepo = loadAccountByEmailRepo
-    this.hashComparer = hashComparer
-    this.encrypter = encrypter
-    this.updateAccessTokenRepo = updateAccessTokenRepo
-  }
+    private readonly loadAccountByEmailRepo: LoadAccountByEmailRepo,
+    private readonly hashComparer: HashComparer,
+    private readonly encrypter: Encrypter,
+    private readonly updateAccessTokenRepo: UpdateAccessTokenRepo
+  ) {}
 
   async auth (authentication: AuthenticationModel): Promise<string> {
     const { email, password } = authentication
