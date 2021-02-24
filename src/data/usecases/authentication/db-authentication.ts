@@ -1,8 +1,8 @@
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer'
 import { Encrypter } from '@/data/protocols/criptography/encrypter'
-import { LoadAccountByEmailRepo } from '@/data/protocols/db/load-account-by-email-repo'
+import { LoadAccountByEmailRepo } from '@/data/protocols/db/account/load-account-by-email-repo'
 import { Authentication, AuthenticationModel } from '@/domain/usecases/authentication'
-import { UpdateAccessTokenRepo } from '@/data/protocols/db/update-access-token-repository'
+import { UpdateAccessTokenRepo } from '@/data/protocols/db/account/update-access-token-repository'
 
 export class DbAuhentication implements Authentication {
   private readonly loadAccountByEmailRepo: LoadAccountByEmailRepo

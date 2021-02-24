@@ -1,8 +1,8 @@
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer'
 import { Encrypter } from '@/data/protocols/criptography/encrypter'
-import { LoadAccountByEmailRepo } from '@/data/protocols/db/load-account-by-email-repo'
+import { LoadAccountByEmailRepo } from '@/data/protocols/db/account/load-account-by-email-repo'
 import { AuthenticationModel } from '@/domain/usecases/authentication'
-import { UpdateAccessTokenRepo } from '@/data/protocols/db/update-access-token-repository'
+import { UpdateAccessTokenRepo } from '@/data/protocols/db/account/update-access-token-repository'
 import { AccountModel } from '../add-account/db-add-account-protocols'
 import { DbAuhentication } from './db-authentication'
 
@@ -34,7 +34,8 @@ const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
   name: 'any_name',
   email: 'any_email@mail.com',
-  password: 'hashed_password'
+  password: 'hashed_password',
+  accessToken: null as any
 })
 
 const makeFakeAuth = (): AuthenticationModel => ({

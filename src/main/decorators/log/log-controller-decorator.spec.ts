@@ -1,8 +1,8 @@
-import { LogErrorRepository } from '@/data/protocols/db/log-error-repository'
+import { LogErrorRepository } from '@/data/protocols/db/log/log-error-repository'
 import { AccountModel } from '@/domain/models/account'
 import { created, serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { LogControllerDecorator } from './log'
+import { LogControllerDecorator } from '@/main/decorators/log/log-controller-decorator'
 
 const makeFakeServerError = (): HttpResponse => {
   const fakeError = new Error()
@@ -23,7 +23,8 @@ const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
-  password: 'valid_password'
+  password: 'valid_password',
+  accessToken: null as any
 })
 
 class ControllerStub implements Controller {
