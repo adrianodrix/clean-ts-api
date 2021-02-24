@@ -53,4 +53,15 @@ describe('POST /login', () => {
       .expect(200)
       .expect(/accessToken/)
   })
+
+  test('should return 401 on login fails', async () => {
+    await request(app)
+      .post('/api/login')
+      .send({
+        email: 'adrianodrix@gmail.com',
+        password: '123'
+      })
+      .expect(401)
+      .expect(/error/)
+  })
 })
