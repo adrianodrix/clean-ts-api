@@ -20,7 +20,8 @@ describe('DbAddAccount UseCase', () => {
     id: 'valid_id',
     name: 'valid_name',
     email: 'valid_email@mail.com',
-    password: 'hashed_password'
+    password: 'hashed_password',
+    accessToken: null as any
   })
 
   const makeFakeAccountData = (): AddAccountModel => ({
