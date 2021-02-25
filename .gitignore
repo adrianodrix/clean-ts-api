@@ -5,5 +5,4 @@ data
 !src/data
 !tests/data
 requirements
-.vscode
 globalConfig.json
