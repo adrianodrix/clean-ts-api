@@ -20,8 +20,7 @@ describe('DbAddAccount UseCase', () => {
     id: 'valid_id',
     name: 'valid_name',
     email: 'valid_email@mail.com',
-    password: 'hashed_password',
-    accessToken: null as any
+    password: 'hashed_password'
   })
 
   const makeFakeAccountData = (): AddAccountModel => ({
@@ -72,7 +71,11 @@ describe('DbAddAccount UseCase', () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const addAccountRepositorySpy = jest.spyOn(addAccountRepositoryStub, 'add')
     await sut.add(makeFakeAccountData())
-    expect(addAccountRepositorySpy).toHaveBeenCalledWith(makeFakeAccount())
+    expect(addAccountRepositorySpy).toHaveBeenCalledWith({
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: 'hashed_password'
+    })
   })
 
   test('should throw if AddAccountRepo throws', async () => {
