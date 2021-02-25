@@ -5,4 +5,5 @@ data
 !src/data
 !tests/data
 requirements
+yarn-error.log
 globalConfig.json
