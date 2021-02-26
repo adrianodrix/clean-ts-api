@@ -2,6 +2,7 @@ node_modules
 dist
 coverage
 data
+.mongodb
 !src/data
 !tests/data
 requirements
