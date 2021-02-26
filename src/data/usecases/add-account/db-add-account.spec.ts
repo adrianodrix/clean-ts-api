@@ -111,7 +111,7 @@ describe('DbAddAccount UseCase', () => {
     await sut.add(makeFakeAccountData())
     expect(loadSpy).toHaveBeenCalledWith('valid_email@mail.com')
   })
-  /**
+
   test('should throw if LoadAccountByEmailRepo throws', async () => {
     const { sut, loadAccountByEmailRepoStub } = makeSut()
     jest.spyOn(loadAccountByEmailRepoStub, 'loadByEmail')
@@ -119,7 +119,7 @@ describe('DbAddAccount UseCase', () => {
     const promise = sut.add(makeFakeAccountData())
     await expect(promise).rejects.toThrow()
   })
-  **/
+
   test('should return null if LoadAccountByEmailRepo not return null', async () => {
     const { sut, loadAccountByEmailRepoStub } = makeSut()
     jest.spyOn(loadAccountByEmailRepoStub, 'loadByEmail')
