@@ -20,7 +20,7 @@ beforeEach(async () => {
 })
 
 describe('POST /signup', () => {
-  test('should return 201 and an account on signup', async () => {
+  test('should return 201 and a token on signup', async () => {
     await request(app)
       .post('/api/signup')
       .send({
@@ -30,7 +30,7 @@ describe('POST /signup', () => {
         passwordConfirmation: '123'
       })
       .expect(201)
-      .expect(/id/)
+      .expect(/accessToken/)
   })
 })
 
