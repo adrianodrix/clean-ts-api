@@ -7,7 +7,7 @@ import { LoadAccountByEmailRepo } from '@/data/protocols/db/account/load-account
 describe('DbAddAccount UseCase', () => {
   class LoadAccountByEmailRepoStub implements LoadAccountByEmailRepo {
     async loadByEmail (email: string): Promise<AccountModel> {
-      return new Promise(resolve => resolve(makeFakeAccount()))
+      return new Promise(resolve => resolve(null))
     }
   }
 
@@ -119,13 +119,12 @@ describe('DbAddAccount UseCase', () => {
     const promise = sut.add(makeFakeAccountData())
     await expect(promise).rejects.toThrow()
   })
-
-  test('should return null if LoadAccountByEmailRepo returns null', async () => {
+  **/
+  test('should return null if LoadAccountByEmailRepo not return null', async () => {
     const { sut, loadAccountByEmailRepoStub } = makeSut()
     jest.spyOn(loadAccountByEmailRepoStub, 'loadByEmail')
-      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
-    const accessToken = await sut.add(makeFakeAccountData())
-    expect(accessToken).toBeFalsy()
+      .mockReturnValueOnce(new Promise(resolve => resolve(makeFakeAccount())))
+    const account = await sut.add(makeFakeAccountData())
+    expect(account).toBeFalsy()
   })
-  **/
 })
