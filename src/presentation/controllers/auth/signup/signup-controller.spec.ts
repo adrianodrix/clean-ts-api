@@ -4,7 +4,7 @@ import { AddAccount, AddAccountModel, AccountModel } from '@/presentation/contro
 import { HttpRequest } from '@/presentation/protocols'
 import { badRequest, created, serverError, forbidden } from '@/presentation/helpers/http/http-helper'
 import { Validation } from '@/presentation/protocols/validation'
-import { Authentication, AuthenticationModel } from '@/domain/usecases/authentication'
+import { Authentication, AuthenticationModel } from '@/domain/usecases/auth/authentication'
 import { EmailInUseError } from '@/presentation/errors/email-in-use-error'
 
 const makeFakeRequest = (): HttpRequest => ({

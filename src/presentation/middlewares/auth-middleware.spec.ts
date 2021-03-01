@@ -1,4 +1,4 @@
-import { LoadAccountByToken } from '@/domain/usecases/load-account-by-token'
+import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
 import { AccountModel } from '../controllers/auth/signup/signup--controller-protocols'
 import { ServerError } from '../errors'
 import { AccessDeniedError } from '../errors/access-denied-error'

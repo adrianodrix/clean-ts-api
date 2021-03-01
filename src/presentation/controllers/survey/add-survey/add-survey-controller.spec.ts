@@ -1,5 +1,5 @@
 import MockDate from 'mockdate'
-import { AddSurvey, AddSurveyModel } from '@/domain/usecases/add-survey'
+import { AddSurvey, AddSurveyModel } from '@/domain/usecases/survey/add-survey'
 import { MissingParamError, ServerError } from '@/presentation/errors'
 import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helper'
 import { Validation } from '@/presentation/protocols/validation'
