@@ -6,7 +6,7 @@ import { AccountMongoRepository } from '@/infra/db/mongodb/account/account-mongo
 
 let accountCollection: Collection
 
-describe('Account Mongo Repository', () => {
+describe('Account Mongo Repository ..', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
@@ -33,10 +33,11 @@ describe('Account Mongo Repository', () => {
   test('should return an account on add success', async () => {
     const sut = makeSut()
     const account = await sut.add(makeFakeAccount())
+
     expect(account).toBeTruthy()
-    expect(account.id).toBeTruthy()
     expect(account.name).toBe('valid_name')
     expect(account.email).toBe('valid_email@mail.com')
+    expect(account.password).toBe('valid_password')
   })
 
   test('should return an account on load by email success', async () => {
@@ -45,9 +46,9 @@ describe('Account Mongo Repository', () => {
     const account = await sut.loadByEmail('valid_email@mail.com')
 
     expect(account).toBeTruthy()
-    expect(account.id).toBeTruthy()
     expect(account.name).toBe('valid_name')
     expect(account.email).toBe('valid_email@mail.com')
+    expect(account.password).toBe('valid_password')
   })
 
   test('should return null if on load by email fails', async () => {
