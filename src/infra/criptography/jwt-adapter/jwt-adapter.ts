@@ -10,8 +10,9 @@ export class JwtAdapter implements Encrypter, Decrypter {
     return accessToken
   }
 
-  async decrypt (value: string): Promise<string> {
-    await jwt.verify(value, this.secret)
-    return null as any
+  async decrypt (token: string): Promise<string> {
+    const response: any = await jwt.verify(token, this.secret)
+    if (!response) return null as any
+    return response
   }
 }
