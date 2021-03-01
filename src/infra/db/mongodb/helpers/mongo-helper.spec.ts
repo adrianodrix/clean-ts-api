@@ -27,4 +27,10 @@ describe('Mongo Helper', () => {
     expect(sut.map({ any_field: 'any_value' }))
       .toEqual({ any_field: 'any_value' })
   })
+
+  test('should return id instead of _id of a list', () => {
+    const list = [{ _id: 'any_id' }, { _id: 'other_id' }]
+    expect(sut.mapCollection(list))
+      .toEqual([{ id: 'any_id' }, { id: 'other_id' }])
+  })
 })
