@@ -1,6 +1,5 @@
 import { SurveyModel } from '@/domain/models/survey'
 import { LoadSurveys } from '@/domain/usecases/survey/load-surveys'
-import { ServerError } from '@/presentation/errors'
 import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '../../auth/signup/signup--controller-protocols'
 
@@ -12,7 +11,7 @@ export class LoadSurveysController implements Controller {
       const list: SurveyModel[] = await this.loadSurveys.load()
       return ok(list)
     } catch (error) {
-      return serverError(new ServerError(error.stack))
+      return serverError(error)
     }
   }
 }
