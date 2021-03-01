@@ -31,10 +31,11 @@ describe('POST /surveys', () => {
       .expect(403)
   })
 
-  test('should return 403 when add a survey with invalid access token', async () => {
+  test('should return 403, when add a survey with invalid access token', async () => {
+    const accessToken = sign({ id: 'invalid_token' }, env.jwtSecret)
     await request(app)
       .post('/api/surveys')
-      .set('x-access-token', 'invalid_token')
+      .set('x-access-token', accessToken)
       .expect(403)
   })
 
