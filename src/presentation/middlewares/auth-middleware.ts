@@ -19,7 +19,7 @@ export class AuthMiddleware implements Middleware {
 
       return ok({ accountId: account.id })
     } catch (error) {
-      return serverError(new ServerError(error.message))
+      return serverError(new ServerError(error.stack))
     }
   }
 }
