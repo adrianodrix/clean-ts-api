@@ -70,8 +70,8 @@ describe('DbLoadSurveys', () => {
 
   test('should return a list if LoadSurveysRepo returns success', async () => {
     const { sut } = makeSut()
-    const account = await sut.load()
-    expect(account).toEqual(makeFakeSurveys())
+    const surveys = await sut.load()
+    expect(surveys).toEqual(makeFakeSurveys())
   })
 
   test('should throw if LoadSurveysRepo throws', async () => {
