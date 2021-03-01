@@ -6,6 +6,21 @@ import { SurveyMongoRepository } from './survey-mongo-repository'
 
 let surveyCollection: Collection
 
+const makeSut = (): SurveyMongoRepository => {
+  return new SurveyMongoRepository()
+}
+
+const makeFakeSurvey = (): AddSurveyModel => ({
+  question: 'any_question',
+  date: new Date(),
+  answers: [{
+    image: 'any_image',
+    answer: 'any_answer'
+  }, {
+    answer: 'other_answer'
+  }]
+})
+
 describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -22,33 +37,20 @@ describe('Survey Mongo Repository', () => {
     await surveyCollection.deleteMany({})
   })
 
-  const makeSut = (): SurveyMongoRepository => {
-    return new SurveyMongoRepository()
-  }
+  describe('Add()', () => {
+    test('should return an survey on add success', async () => {
+      const sut = makeSut()
+      await sut.add(makeFakeSurvey())
+      const surveyResponse = await surveyCollection.findOne({ question: 'any_question' })
 
-  const makeFakeSurvey = (): AddSurveyModel => ({
-    question: 'any_question',
-    date: new Date(),
-    answers: [{
-      image: 'any_image',
-      answer: 'any_answer'
-    }, {
-      answer: 'other_answer'
-    }]
-  })
+      expect(surveyResponse).toBeTruthy()
+    })
 
-  test('should return an survey on add success', async () => {
-    const sut = makeSut()
-    await sut.add(makeFakeSurvey())
-    const surveyResponse = await surveyCollection.findOne({ question: 'any_question' })
-
-    expect(surveyResponse).toBeTruthy()
-  })
-
-  test('should throw if AddSurveyRepository throws', async () => {
-    const sut = makeSut()
-    jest.spyOn(sut, 'add').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
-    const promise = sut.add(makeFakeSurvey())
-    await expect(promise).rejects.toThrow()
+    test('should throw if AddSurveyRepository throws', async () => {
+      const sut = makeSut()
+      jest.spyOn(sut, 'add').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+      const promise = sut.add(makeFakeSurvey())
+      await expect(promise).rejects.toThrow()
+    })
   })
 })
