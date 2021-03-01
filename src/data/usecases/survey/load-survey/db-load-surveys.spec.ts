@@ -67,4 +67,17 @@ describe('DbLoadSurveys', () => {
     await sut.load()
     expect(loadSpy).toHaveBeenCalled()
   })
+
+  test('should return a list if LoadSurveysRepo returns success', async () => {
+    const { sut } = makeSut()
+    const account = await sut.load()
+    expect(account).toEqual(makeFakeSurveys())
+  })
+
+  test('should throw if LoadSurveysRepo throws', async () => {
+    const { sut, loadSurveysRepoStub } = makeSut()
+    jest.spyOn(loadSurveysRepoStub, 'loadAll').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const promise = sut.load()
+    await expect(promise).rejects.toThrow()
+  })
 })
