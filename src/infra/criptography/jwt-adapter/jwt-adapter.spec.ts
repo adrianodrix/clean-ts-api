@@ -49,6 +49,13 @@ describe('JWT Adapater', () => {
       expect(value).toBe('any_value')
     })
 
+    test('should return null with verify returns null', async () => {
+      const sut = makeSut()
+      jest.spyOn(jwt, 'verify').mockReturnValueOnce(null)
+      const response = await sut.decrypt('any_token')
+      expect(response).toBeNull()
+    })
+
     test('should trohws with verify trhows', async () => {
       const sut = makeSut()
       jest.spyOn(jwt, 'verify').mockImplementationOnce(() => { throw new Error() })
