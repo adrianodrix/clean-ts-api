@@ -146,6 +146,13 @@ describe('DBAuthentication UseCase', () => {
     await expect(promise).rejects.toThrow()
   })
 
+  test('should return null if Encrypter returns null', async () => {
+    const { sut, encrypterStub } = makeSut()
+    jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const accessToken = await sut.auth(makeFakeAuth())
+    expect(accessToken).toBeFalsy()
+  })
+
   test('should return token if Encrypter success', async () => {
     const { sut } = makeSut()
     const accessToken = await sut.auth(makeFakeAuth())
