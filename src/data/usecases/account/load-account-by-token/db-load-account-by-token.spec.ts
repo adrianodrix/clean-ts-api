@@ -1,7 +1,7 @@
 import { Decrypter } from '@/data/protocols/criptography/decrypter'
 import { LoadAccountByTokenRepo } from '@/data/protocols/db/account/load-account-by-token-repo'
-import { AccountModel } from '../add-account/db-add-account-protocols'
-import { DbLoadAccountByToken } from './db-load-account-by-token'
+import { AccountModel } from '@/data/usecases/account/add-account/db-add-account-protocols'
+import { DbLoadAccountByToken } from '@/data/usecases/account/load-account-by-token/db-load-account-by-token'
 
 class DecrypterStub implements Decrypter {
   async decrypt (value: string): Promise<string> {

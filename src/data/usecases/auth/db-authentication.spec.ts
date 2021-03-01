@@ -3,8 +3,8 @@ import { Encrypter } from '@/data/protocols/criptography/encrypter'
 import { LoadAccountByEmailRepo } from '@/data/protocols/db/account/load-account-by-email-repo'
 import { AuthenticationModel } from '@/domain/usecases/authentication'
 import { UpdateAccessTokenRepo } from '@/data/protocols/db/account/update-access-token-repository'
-import { AccountModel } from '../add-account/db-add-account-protocols'
-import { DbAuhentication } from './db-authentication'
+import { AccountModel } from '@/data/usecases/account/add-account/db-add-account-protocols'
+import { DbAuhentication } from '@/data/usecases/auth/db-authentication'
 
 class LoadAccountByEmailRepoStub implements LoadAccountByEmailRepo {
   async loadByEmail (email: string): Promise<AccountModel> {

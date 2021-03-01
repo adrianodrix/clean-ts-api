@@ -1,5 +1,5 @@
 import { Authentication } from '@/domain/usecases/authentication'
-import { DbAuhentication } from '@/data/usecases/authentication/db-authentication'
+import { DbAuhentication } from '@/data/usecases/auth/db-authentication'
 import { AccountMongoRepository } from '@/infra/db/mongodb/account/account-mongo-repository'
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer'
 import { Encrypter } from '@/data/protocols/criptography/encrypter'
