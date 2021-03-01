@@ -1,6 +1,6 @@
-import { SignUpController } from '@/presentation/controllers/signup/signup-controller'
+import { SignUpController } from '@/presentation/controllers/auth/signup/signup-controller'
 import { MissingParamError, ServerError } from '@/presentation/errors'
-import { AddAccount, AddAccountModel, AccountModel } from '@/presentation/controllers/signup/signup--controller-protocols'
+import { AddAccount, AddAccountModel, AccountModel } from '@/presentation/controllers/auth/signup/signup--controller-protocols'
 import { HttpRequest } from '@/presentation/protocols'
 import { badRequest, created, serverError, forbidden } from '@/presentation/helpers/http/http-helper'
 import { Validation } from '@/presentation/protocols/validation'
