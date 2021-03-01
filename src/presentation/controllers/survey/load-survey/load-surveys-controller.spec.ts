@@ -2,6 +2,7 @@ import MockDate from 'mockdate'
 import { SurveyModel } from '@/domain/models/survey'
 import { LoadSurveys } from '@/domain/usecases/survey/load-surveys'
 import { LoadSurveysController } from './load-surveys-controller'
+import { ok } from '@/presentation/helpers/http/http-helper'
 
 class LoadSurveysStub implements LoadSurveys {
   async load (): Promise<SurveyModel[]> {
@@ -62,5 +63,11 @@ describe('LoadSurveys Controller', () => {
     const loadSpy = jest.spyOn(loadSurveysStub, 'load')
     await sut.handle({})
     expect(loadSpy).toHaveBeenCalled()
+  })
+
+  test('should return 200 status code and a list of surveys when call LoadSurveys', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(ok(makeFakeSurveys()))
   })
 })
