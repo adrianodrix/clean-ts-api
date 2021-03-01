@@ -1,6 +1,8 @@
 import { LoadAccountByToken } from '@/domain/usecases/load-account-by-token'
+import { AccountModel } from '../controllers/auth/signup/signup--controller-protocols'
+import { ServerError } from '../errors'
 import { AccessDeniedError } from '../errors/access-denied-error'
-import { forbidden } from '../helpers/http/http-helper'
+import { forbidden, ok, serverError } from '../helpers/http/http-helper'
 import { HttpRequest, HttpResponse } from '../protocols'
 import { Middleware } from '../protocols/middleware'
 
@@ -8,9 +10,16 @@ export class AuthMiddleware implements Middleware {
   constructor (private readonly loadAccountByToken: LoadAccountByToken) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const accessToken = httpRequest.headers?.['x-access-token']
-    if (!accessToken) return forbidden(new AccessDeniedError())
+    try {
+      const accessToken = httpRequest.headers?.['x-access-token']
+      if (!accessToken) return forbidden(new AccessDeniedError())
 
-    await this.loadAccountByToken.load(accessToken)
+      const account: AccountModel = await this.loadAccountByToken.load(accessToken)
+      if (!account) return forbidden(new AccessDeniedError())
+
+      return ok({ accountId: account.id })
+    } catch (error) {
+      return serverError(new ServerError(error.message))
+    }
   }
 }
