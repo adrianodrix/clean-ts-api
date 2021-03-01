@@ -37,7 +37,6 @@ describe('POST /signup', () => {
 describe('POST /login', () => {
   test('should return 200 and a token on login', async () => {
     const password = await hash('123', 12)
-
     await accountCollection.insertOne({
       name: 'Adriano Santos',
       email: 'adrianodrix@gmail.com',
