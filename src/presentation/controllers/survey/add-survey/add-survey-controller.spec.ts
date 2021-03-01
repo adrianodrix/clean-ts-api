@@ -1,6 +1,6 @@
 import { AddSurvey, AddSurveyModel } from '@/domain/usecases/add-survey'
 import { MissingParamError, ServerError } from '@/presentation/errors'
-import { badRequest, created, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helper'
 import { Validation } from '@/presentation/protocols/validation'
 import { HttpRequest } from '../../auth/signup/signup--controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
@@ -79,11 +79,11 @@ describe('AddSurvey Controller', () => {
     expect(addSpy).toHaveBeenCalledWith({ question, answers })
   })
 
-  test('should return 201 if valid data is provided', async () => {
+  test('should return 204 if valid data is provided', async () => {
     // SUT - System Under Test
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(created({}))
+    expect(httpResponse).toEqual(noContent())
   })
 
   test('should return 500 if AddSurvey throws', async () => {
