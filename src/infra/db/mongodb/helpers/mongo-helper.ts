@@ -25,7 +25,7 @@ export const MongoHelper = {
   },
 
   map: (data: any): any => {
-    if (data?._id) return data
+    if (!data?._id) return data
 
     const { _id, ...rest } = data
     return { ...rest, id: _id }

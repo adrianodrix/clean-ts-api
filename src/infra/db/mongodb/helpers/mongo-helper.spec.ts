@@ -17,4 +17,14 @@ describe('Mongo Helper', () => {
     accountColletion = await sut.getCollection('accounts')
     expect(accountColletion).toBeTruthy()
   })
+
+  test('should return id instead of _id', () => {
+    expect(sut.map({ _id: 'any_id' }))
+      .toEqual({ id: 'any_id' })
+  })
+
+  test('should return data when there is no id', () => {
+    expect(sut.map({ any_field: 'any_value' }))
+      .toEqual({ any_field: 'any_value' })
+  })
 })
