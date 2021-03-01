@@ -113,12 +113,6 @@ describe('Account Mongo Repository ..', () => {
 
     test('should return null if on load by token fails', async () => {
       const sut = makeSut()
-      await accountCollection.insertOne({
-        name: 'valid_name',
-        email: 'valid_email@mail.com',
-        password: 'valid_password',
-        accessToken: 'valid_token'
-      })
       const account = await sut.loadByToken('invalid_token')
       expect(account).toBeFalsy()
     })
