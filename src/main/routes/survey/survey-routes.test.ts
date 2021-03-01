@@ -19,6 +19,21 @@ beforeEach(async () => {
 })
 
 describe('POST /surveys', () => {
+  test('should return 403 when add a survey whithout accessToken', async () => {
+    await request(app)
+      .post('/api/surveys')
+      .send({
+        question: 'any_question',
+        answers: [{
+          image: 'any_image',
+          answer: 'any_answer'
+        }, {
+          answer: 'other_answer'
+        }]
+      })
+      .expect(403)
+  })
+
   test('should return 204 when add a survey', async () => {
     await request(app)
       .post('/api/surveys')
