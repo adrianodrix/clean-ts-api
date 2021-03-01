@@ -7,7 +7,12 @@ class DecrypterStub implements Decrypter {
   }
 }
 
-const makeSut = (): any => {
+interface SutTypes {
+  sut: DbLoadAccountByToken
+  decrypterStub: Decrypter
+}
+
+const makeSut = (): SutTypes => {
   const decrypterStub = new DecrypterStub()
   const sut = new DbLoadAccountByToken(decrypterStub)
   return {
