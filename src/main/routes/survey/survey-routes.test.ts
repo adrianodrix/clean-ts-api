@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import request from 'supertest'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import app from '@/main/config/app'
@@ -10,10 +11,12 @@ let surveyCollection, accountCollection: Collection
 
 beforeAll(async () => {
   await MongoHelper.connect(process.env.MONGO_URL)
+  MockDate.set(new Date())
 })
 
 afterAll(async () => {
   await MongoHelper.disconnect()
+  MockDate.reset()
 })
 
 beforeEach(async () => {
@@ -64,6 +67,7 @@ describe('POST /surveys', () => {
       .set('x-access-token', accessToken)
       .send({
         question: 'any_question',
+        date: new Date(),
         answers: [{
           image: 'any_image',
           answer: 'any_answer'

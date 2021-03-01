@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import { AddSurvey, AddSurveyModel } from '@/domain/usecases/add-survey'
 import { MissingParamError, ServerError } from '@/presentation/errors'
 import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helper'
@@ -8,6 +9,7 @@ import { AddSurveyController } from './add-survey-controller'
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     question: 'any_question',
+    date: new Date(),
     answers: [{
       image: 'any_image',
       answer: 'any_answer'
@@ -54,6 +56,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddSurvey Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   test('should call Validation with correct values', async () => {
     const { sut, validationStub } = makeSut()
     const validateSpy = jest.spyOn(validationStub, 'validate')
@@ -75,8 +85,8 @@ describe('AddSurvey Controller', () => {
     const addSpy = jest.spyOn(addSurveyStub, 'add')
 
     await sut.handle(makeFakeRequest())
-    const { question, answers } = makeFakeRequest().body
-    expect(addSpy).toHaveBeenCalledWith({ question, answers })
+    const { question, answers, date } = makeFakeRequest().body
+    expect(addSpy).toHaveBeenCalledWith({ question, answers, date })
   })
 
   test('should return 204 if valid data is provided', async () => {
