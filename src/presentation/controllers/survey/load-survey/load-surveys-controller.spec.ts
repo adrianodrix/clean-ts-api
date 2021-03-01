@@ -41,7 +41,12 @@ const makeFakeSurveys = (): SurveyModel[] => {
   ]
 }
 
-const makeSut = (): any => {
+interface SutTypes {
+  sut: LoadSurveysController
+  loadSurveysStub: LoadSurveys
+}
+
+const makeSut = (): SutTypes => {
   const loadSurveysStub = new LoadSurveysStub()
   const sut = new LoadSurveysController(loadSurveysStub)
   return {
@@ -77,7 +82,7 @@ describe('LoadSurveys Controller', () => {
     jest.spyOn(loadSurveysStub, 'load').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => reject(new Error()))
     })
-    const httpResponse = await sut.handle()
+    const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(serverError(new ServerError('')))
   })
 })
