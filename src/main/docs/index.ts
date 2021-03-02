@@ -1,3 +1,7 @@
+import paths from './paths'
+import schemas from './schemas'
+import components from './components'
+
 export default {
   openapi: '3.0.0',
   info: {
@@ -21,6 +25,9 @@ export default {
   servers: [{
     url: '/api',
     description: 'Servidor Principal'
+  }, {
+    url: '/sandbox',
+    description: 'Servidor para Testes'
   }],
   tags: [{
     name: 'Login',
@@ -28,5 +35,8 @@ export default {
   }, {
     name: 'Enquete',
     description: 'APIs relacionadas a Enquete'
-  }]
+  }],
+  paths,
+  schemas,
+  components
 }
