@@ -81,3 +81,11 @@ describe('POST /surveys', () => {
     expect(surveyResponse).toBeTruthy()
   })
 })
+
+describe('GET /surveys', () => {
+  test('should return 403 when load all surveys whithout accessToken', async () => {
+    await request(app)
+      .get('/api/surveys')
+      .expect(403)
+  })
+})
