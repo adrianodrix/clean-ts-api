@@ -95,5 +95,12 @@ describe('Survey Mongo Repository', () => {
       expect(surveys[0].question).toBe('any_question')
       expect(surveys[1].question).toBe('other_question')
     })
+
+    test('should throw if LoadSurveyRepository throws', async () => {
+      const sut = makeSut()
+      jest.spyOn(sut, 'loadAll').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+      const promise = sut.loadAll()
+      await expect(promise).rejects.toThrow()
+    })
   })
 })
