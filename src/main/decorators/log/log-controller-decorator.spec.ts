@@ -38,7 +38,7 @@ class LogErrorRepositoryStub implements LogErrorRepository {
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: LogControllerDecorator
   controllerStub: ControllerStub
   logErrorRepositoryStub: LogErrorRepositoryStub

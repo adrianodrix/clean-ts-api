@@ -20,7 +20,7 @@ const makeFakeAccount = (): AccountModel => ({
   accessToken: 'any_token'
 })
 
-interface SutTypes {
+type SutTypes = {
   sut: AuthMiddleware
   loadAccountByTokenStub: LoadAccountByToken
 }

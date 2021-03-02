@@ -8,7 +8,7 @@ class ValidationStub implements Validation {
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: ValidationComposite
   validationStubs: Validation[]
 }

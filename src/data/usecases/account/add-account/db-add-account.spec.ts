@@ -17,7 +17,7 @@ describe('DbAddAccount UseCase', () => {
     }
   }
 
-  interface SutTypes {
+  type SutTypes = {
     sut: DbAddAccount
     hasherStub: HasherStub
     addAccountRepositoryStub: AddAccountRepository

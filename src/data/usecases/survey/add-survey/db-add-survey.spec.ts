@@ -7,7 +7,7 @@ class AddSurveyRepositoryStub implements AddSurveyRepository {
   async add (surveyData: AddSurveyModel): Promise<void> {}
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: DbAddSurvey
   addSurveyRepositoryStub: AddSurveyRepository
 }
