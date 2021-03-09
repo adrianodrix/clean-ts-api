@@ -113,23 +113,9 @@ describe('Survey Mongo Repository', () => {
   describe('LoadById()', () => {
     test('should load a survey by Id on success', async () => {
       const res = await surveyCollection.insertOne(makeFakeSurveys()[0])
-
       const sut = makeSut()
       const survey = await sut.loadById(res.ops[0]._id)
       expect(survey).toBeTruthy()
-    })
-
-    test('should load empty list surveys', async () => {
-      const sut = makeSut()
-      const surveys = await sut.loadAll()
-      expect(surveys.length).toBe(0)
-    })
-
-    test('should throw if LoadSurveyRepository throws', async () => {
-      const sut = makeSut()
-      jest.spyOn(sut, 'loadAll').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
-      const promise = sut.loadAll()
-      await expect(promise).rejects.toThrow()
     })
   })
 })
