@@ -22,14 +22,14 @@ export class SaveSurveyResultController implements Controller {
 
       const { accountId } = httpRequest
 
-      await this.saveSurveyResult.save({
+      const surveyResult = await this.saveSurveyResult.save({
         surveyId,
         accountId,
         date: new Date(),
         answer
       })
 
-      return ok(survey)
+      return ok(surveyResult)
     } catch (error) {
       return serverError(error)
     }
