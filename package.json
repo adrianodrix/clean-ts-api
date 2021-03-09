@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "dev": "yarn build:watch && docker-compose up --build",
-    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
+    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9233 --nolazy ./dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "build:watch": "yarn build -w",
     "up": "yarn build && docker-compose up --build",
