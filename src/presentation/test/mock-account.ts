@@ -4,7 +4,7 @@ import { AccountModel, AddAccount, AddAccountParams } from '../controllers/auth/
 export const mockAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add (acoount: AddAccountParams): Promise<AccountModel> {
-      return new Promise(resolve => resolve(mockAccountModel()))
+      return Promise.resolve(mockAccountModel())
     }
   }
 

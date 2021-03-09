@@ -4,10 +4,10 @@ import { mockError } from '@/domain/test'
 
 jest.mock('bcrypt', () => ({
   async hash (): Promise<string> {
-    return new Promise(resolve => resolve('hash'))
+    return Promise.resolve('hash')
   },
   async compare (value: string, hash: string): Promise<boolean> {
-    return new Promise(resolve => resolve(true))
+    return Promise.resolve(true)
   }
 }))
 
@@ -56,7 +56,7 @@ describe('Bcrypt Adapter', () => {
 
     test('should return false where compare fails', async () => {
       const sut = makeSut()
-      jest.spyOn(bcrypt, 'compare').mockReturnValueOnce(new Promise(resolve => resolve(false)))
+      jest.spyOn(bcrypt, 'compare').mockReturnValueOnce(Promise.resolve(false))
       const isValid = await sut.comparer('any_value', 'any_hash')
       expect(isValid).toBeFalsy()
     })

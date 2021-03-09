@@ -8,7 +8,7 @@ import { AccountModel, AddAccountParams } from '../usecases/account/add-account/
 export const mockAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
     async add (acoountData: AddAccountParams): Promise<AccountModel> {
-      return new Promise(resolve => resolve(mockAccountModel()))
+      return Promise.resolve(mockAccountModel())
     }
   }
   return new AddAccountRepositoryStub()
@@ -17,7 +17,7 @@ export const mockAddAccountRepository = (): AddAccountRepository => {
 export const mockLoadAccountByEmailRepo = (): LoadAccountByEmailRepo => {
   class LoadAccountByEmailRepoStub implements LoadAccountByEmailRepo {
     async loadByEmail (email: string): Promise<AccountModel> {
-      return new Promise(resolve => resolve(mockAccountModel()))
+      return Promise.resolve(mockAccountModel())
     }
   }
   return new LoadAccountByEmailRepoStub()
@@ -26,7 +26,7 @@ export const mockLoadAccountByEmailRepo = (): LoadAccountByEmailRepo => {
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
     async load (accessToken: string, role?: string): Promise<AccountModel> {
-      return new Promise(resolve => resolve(mockAccountModel()))
+      return Promise.resolve(mockAccountModel())
     }
   }
   return new LoadAccountByTokenStub()

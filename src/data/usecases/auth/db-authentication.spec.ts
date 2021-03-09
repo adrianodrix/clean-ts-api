@@ -75,7 +75,7 @@ describe('DBAuthentication UseCase', () => {
 
   test('should return null if hashComparer returns null', async () => {
     const { sut, hashComparerStub } = makeSut()
-    jest.spyOn(hashComparerStub, 'comparer').mockReturnValueOnce(new Promise(resolve => resolve(false)))
+    jest.spyOn(hashComparerStub, 'comparer').mockReturnValueOnce(Promise.resolve(false))
     const accessToken = await sut.auth(mockAuth())
     expect(accessToken).toBeFalsy()
   })
@@ -97,7 +97,7 @@ describe('DBAuthentication UseCase', () => {
 
   test('should return null if Encrypter returns null', async () => {
     const { sut, encrypterStub } = makeSut()
-    jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(Promise.resolve(null))
     const accessToken = await sut.auth(mockAuth())
     expect(accessToken).toBeFalsy()
   })
