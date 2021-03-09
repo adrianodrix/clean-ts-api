@@ -1,7 +1,7 @@
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer'
 import { Encrypter } from '@/data/protocols/criptography/encrypter'
 import { LoadAccountByEmailRepo } from '@/data/protocols/db/account/load-account-by-email-repo'
-import { Authentication, AuthenticationModel } from '@/domain/usecases/auth/authentication'
+import { Authentication, AuthenticationParams } from '@/domain/usecases/auth/authentication'
 import { UpdateAccessTokenRepo } from '@/data/protocols/db/account/update-access-token-repository'
 
 export class DbAuhentication implements Authentication {
@@ -12,7 +12,7 @@ export class DbAuhentication implements Authentication {
     private readonly updateAccessTokenRepo: UpdateAccessTokenRepo
   ) {}
 
-  async auth (authentication: AuthenticationModel): Promise<string> {
+  async auth (authentication: AuthenticationParams): Promise<string> {
     const { email, password } = authentication
     const account = await this.loadAccountByEmailRepo.loadByEmail(email)
     if (!account) return null as any

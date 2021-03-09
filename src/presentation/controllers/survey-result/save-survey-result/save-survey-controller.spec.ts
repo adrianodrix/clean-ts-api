@@ -4,7 +4,7 @@ import { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 import { InvalidParamError, ServerError } from '@/presentation/errors'
 import { HttpRequest } from '../../auth/signup/signup--controller-protocols'
 import { SaveSurveyResultController } from './save-survey-controller'
-import { SaveSurveyResult, SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
+import { SaveSurveyResult, SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { SurveyResultModel } from '@/domain/models/survey-result'
 
@@ -27,7 +27,7 @@ const makeSut = (): SutTypes => {
 
 const makeSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
-    async save (data: SaveSurveyResultModel): Promise<SaveSurveyResultModel> {
+    async save (data: SaveSurveyResultParams): Promise<SaveSurveyResultParams> {
       return new Promise(resolve => resolve(makeFakeSurveyResult()))
     }
   }

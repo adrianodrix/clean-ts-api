@@ -1,5 +1,5 @@
 import { AccountModel } from '@/domain/models/account'
-import { AddAccountModel } from '@/domain/usecases/account/add-account'
+import { AddAccountParams } from '@/domain/usecases/account/add-account'
 import { Collection } from 'mongodb'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { AccountMongoRepository } from '@/infra/db/mongodb/account/account-mongo-repository'
@@ -23,7 +23,7 @@ const makeSut = (): AccountMongoRepository => {
   return new AccountMongoRepository()
 }
 
-const makeFakeAccount = (): AddAccountModel => ({
+const makeFakeAccount = (): AddAccountParams => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password'
