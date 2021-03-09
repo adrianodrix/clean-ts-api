@@ -26,7 +26,7 @@ const makeSurvey = async (): Promise<SurveyModel> => {
       }
     ]
   })
-  return res.ops[0]
+  return MongoHelper.map(res.ops[0])
 }
 
 const makeAccount = async (): Promise<AccountModel> => {
@@ -35,7 +35,7 @@ const makeAccount = async (): Promise<AccountModel> => {
     email: 'any_@mail.com',
     password: 'any_password'
   })
-  return res.ops[0]
+  return MongoHelper.map(res.ops[0])
 }
 
 const makeFakeSurveyResult = async (): Promise<SaveSurveyResultModel> => {
