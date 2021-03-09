@@ -3,7 +3,7 @@ import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { SurveyModel } from '@/domain/models/survey'
 import { SurveyResultMongoRepository } from './survey-result-mongo-repository'
-import { SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
+import { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result'
 import { AccountModel } from '@/domain/models/account'
 
 let surveyCollection: Collection
@@ -38,7 +38,7 @@ const makeAccount = async (): Promise<AccountModel> => {
   return MongoHelper.map(res.ops[0])
 }
 
-const makeFakeSurveyResult = async (): Promise<SaveSurveyResultModel> => {
+const makeFakeSurveyResult = async (): Promise<SaveSurveyResultParams> => {
   const survey = MongoHelper.map(await makeSurvey())
   const account = MongoHelper.map(await makeAccount())
 
