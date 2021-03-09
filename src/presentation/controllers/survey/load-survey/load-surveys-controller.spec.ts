@@ -4,41 +4,12 @@ import { LoadSurveys } from '@/domain/usecases/survey/load-surveys'
 import { LoadSurveysController } from './load-surveys-controller'
 import { ok, serverError, noContent } from '@/presentation/helpers/http/http-helper'
 import { ServerError } from '@/presentation/errors'
+import { mockSurveys } from '@/domain/test'
 
 class LoadSurveysStub implements LoadSurveys {
   async load (): Promise<SurveyModel[]> {
-    return new Promise(resolve => resolve(makeFakeSurveys()))
+    return new Promise(resolve => resolve(mockSurveys()))
   }
-}
-
-const makeFakeSurveys = (): SurveyModel[] => {
-  return [
-    {
-      id: 'any_id',
-      question: 'any_question',
-      date: new Date(),
-      answers: [
-        {
-          image: 'any_image',
-          answer: 'any_ansser'
-        }
-      ]
-    },
-    {
-      id: 'other_id',
-      question: 'other_question',
-      date: new Date(),
-      answers: [
-        {
-          image: 'other_image',
-          answer: 'other_ansser'
-        },
-        {
-          answer: 'one_more_ansser'
-        }
-      ]
-    }
-  ]
 }
 
 type SutTypes = {
@@ -74,7 +45,7 @@ describe('LoadSurveys Controller', () => {
   test('should return 200 status code and a list of surveys when call LoadSurveys', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(ok(makeFakeSurveys()))
+    expect(httpResponse).toEqual(ok(mockSurveys()))
   })
 
   test('should return 204 if LoadSurveys return empty', async () => {
