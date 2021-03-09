@@ -1,7 +1,6 @@
 import { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
-import { serverError } from '@/main/docs/components'
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, ok } from '@/presentation/helpers/http/http-helper'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 export class SaveSurveyResultController implements Controller {
