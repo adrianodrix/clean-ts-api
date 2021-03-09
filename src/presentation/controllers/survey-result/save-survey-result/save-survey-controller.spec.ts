@@ -6,6 +6,7 @@ import { HttpRequest } from '../../auth/signup/signup--controller-protocols'
 import { SaveSurveyResultController } from './save-survey-controller'
 import { SaveSurveyResult, SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { SurveyResultModel } from '@/domain/models/survey-result'
 
 type SutTypes = {
   sut: SaveSurveyResultController
@@ -27,7 +28,7 @@ const makeSut = (): SutTypes => {
 const makeSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
     async save (data: SaveSurveyResultModel): Promise<SaveSurveyResultModel> {
-      return null as any
+      return new Promise(resolve => resolve(makeFakeSurveyResult()))
     }
   }
   return new SaveSurveyResultStub()
@@ -56,6 +57,14 @@ const makeFakeSurvey = (): SurveyModel => {
     ]
   }
 }
+
+const makeFakeSurveyResult = (): SurveyResultModel => ({
+  id: 'valid_id',
+  surveyId: 'valid_survey_id',
+  accountId: 'valid_account_id',
+  date: new Date(),
+  answer: 'valid_answer'
+})
 
 const makeLoadSurveyById = (): LoadSurveyById => {
   class LoadSurveyByIdStub implements LoadSurveyById {
@@ -113,10 +122,10 @@ describe('SaveSurveyResult Controller', () => {
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')))
   })
 
-  it('should return 200 status code and a id when call LoadSurveyById', async () => {
+  it('should return 200 status code and a SurveyResult on success', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(ok(makeFakeSurvey()))
+    expect(httpResponse).toEqual(ok(makeFakeSurveyResult()))
   })
 
   it('should return 500 if LoadSurveyById throws', async () => {
