@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
-import { SaveSurveyResultModel } from '@/domain/usecases/survey/save-survey-result'
+import { SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
 import { SurveyResultModel } from '@/domain/models/survey-result'
-import { SaveSurveyResultRepository } from '@/data/protocols/db/survey/save-survey-result-repo'
+import { SaveSurveyResultRepository } from '@/data/protocols/db/survey-result/save-survey-result-repo'
 import { DbSaveSurveyResult } from './db-save-survey-result'
 
 class SaveSurveyResultRepositoryStub implements SaveSurveyResultRepository {

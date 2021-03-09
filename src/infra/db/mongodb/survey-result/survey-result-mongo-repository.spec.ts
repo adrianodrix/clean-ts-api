@@ -3,7 +3,7 @@ import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { SurveyModel } from '@/domain/models/survey'
 import { SurveyResultMongoRepository } from './survey-result-mongo-repository'
-import { SaveSurveyResultModel } from '@/domain/usecases/survey/save-survey-result'
+import { SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
 import { AccountModel } from '@/domain/models/account'
 
 let surveyCollection: Collection
