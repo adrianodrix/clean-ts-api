@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import { SurveyModel } from '@/domain/models/survey'
 import { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 import { InvalidParamError, ServerError } from '@/presentation/errors'
@@ -22,6 +23,9 @@ const makeSut = (): SutTypes => {
 const makeFakeRequest = (): HttpRequest => ({
   params: {
     surveyId: 'any_survey_id'
+  },
+  body: {
+    answer: 'any_answer'
   }
 })
 
@@ -33,7 +37,7 @@ const makeFakeSurvey = (): SurveyModel => {
     answers: [
       {
         image: 'any_image',
-        answer: 'any_ansser'
+        answer: 'any_answer'
       }
     ]
   }
@@ -48,6 +52,14 @@ const makeLoadSurveyById = (): LoadSurveyById => {
   return new LoadSurveyByIdStub()
 }
 describe('SaveSurveyResult Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   it('should call LoadSurveyById with correct values', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById')
@@ -62,7 +74,20 @@ describe('SaveSurveyResult Controller', () => {
     expect(httpRespose).toEqual(forbidden(new InvalidParamError('surveyId')))
   })
 
-  test('should return 200 status code and a id when call LoadSurveyById', async () => {
+  it('should return 403 if an invalid answer is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({
+      params: {
+        surveyId: 'any_survey_id'
+      },
+      body: {
+        answer: 'wrong_answer'
+      }
+    })
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')))
+  })
+
+  it('should return 200 status code and a id when call LoadSurveyById', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(ok(makeFakeSurvey()))
