@@ -92,6 +92,7 @@ describe('Survey Mongo Repository', () => {
       const sut = makeSut()
       const surveys = await sut.loadAll()
       expect(surveys.length).toBe(2)
+      expect(surveys[0].id).toBeTruthy()
       expect(surveys[0].question).toBe('any_question')
       expect(surveys[1].question).toBe('other_question')
     })
@@ -107,6 +108,15 @@ describe('Survey Mongo Repository', () => {
       jest.spyOn(sut, 'loadAll').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
       const promise = sut.loadAll()
       await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('LoadById()', () => {
+    test('should load a survey by Id on success', async () => {
+      const res = await surveyCollection.insertOne(makeFakeSurveys()[0])
+      const sut = makeSut()
+      const survey = await sut.loadById(res.ops[0]._id)
+      expect(survey).toBeTruthy()
     })
   })
 })
