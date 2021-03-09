@@ -5,6 +5,7 @@ import { SurveyModel } from '@/domain/models/survey'
 import { SurveyResultMongoRepository } from './survey-result-mongo-repository'
 import { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result'
 import { AccountModel } from '@/domain/models/account'
+import { mockAddAccountParams, mockAddSurveyParams } from '@/domain/test'
 
 let surveyCollection: Collection
 let surveyResultCollection: Collection
@@ -15,26 +16,12 @@ const makeSut = (): SurveyResultMongoRepository => {
 }
 
 const makeSurvey = async (): Promise<SurveyModel> => {
-  const res = await surveyCollection.insertOne({
-    id: 'any_id',
-    question: 'any_question',
-    date: new Date(),
-    answers: [
-      {
-        image: 'any_image',
-        answer: 'any_ansser'
-      }
-    ]
-  })
+  const res = await surveyCollection.insertOne(mockAddSurveyParams())
   return MongoHelper.map(res.ops[0])
 }
 
 const makeAccount = async (): Promise<AccountModel> => {
-  const res = await accountCollection.insertOne({
-    name: 'any_name',
-    email: 'any_@mail.com',
-    password: 'any_password'
-  })
+  const res = await accountCollection.insertOne(mockAddAccountParams())
   return MongoHelper.map(res.ops[0])
 }
 
@@ -76,7 +63,7 @@ describe('Survey Results Mongo Repository', () => {
       const surveryResult = await sut.save(await makeFakeSurveyResult())
       expect(surveryResult).toBeTruthy()
       expect(surveryResult.id).toBeTruthy()
-      expect(surveryResult.answer).toBe('any_ansser')
+      expect(surveryResult.answer).toBe('any_answer')
     })
 
     test('should update survey result it its not new', async () => {

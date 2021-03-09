@@ -1,56 +1,14 @@
 import MockDate from 'mockdate'
-import { AddSurveyParams } from '@/domain/usecases/survey/add-survey'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { SurveyMongoRepository } from './survey-mongo-repository'
-import { SurveyModel } from '@/domain/models/survey'
+import { mockSurveys, mockAddSurveyParams } from '@/domain/test'
 
 let surveyCollection: Collection
-
-const makeFakeSurveys = (): SurveyModel[] => {
-  return [
-    {
-      id: 'any_id',
-      question: 'any_question',
-      date: new Date(),
-      answers: [
-        {
-          image: 'any_image',
-          answer: 'any_ansser'
-        }
-      ]
-    },
-    {
-      id: 'other_id',
-      question: 'other_question',
-      date: new Date(),
-      answers: [
-        {
-          image: 'other_image',
-          answer: 'other_ansser'
-        },
-        {
-          answer: 'one_more_ansser'
-        }
-      ]
-    }
-  ]
-}
 
 const makeSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
 }
-
-const makeFakeSurvey = (): AddSurveyParams => ({
-  question: 'any_question',
-  date: new Date(),
-  answers: [{
-    image: 'any_image',
-    answer: 'any_answer'
-  }, {
-    answer: 'other_answer'
-  }]
-})
 
 describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
@@ -71,7 +29,7 @@ describe('Survey Mongo Repository', () => {
   describe('Add()', () => {
     test('should return an survey on add success', async () => {
       const sut = makeSut()
-      await sut.add(makeFakeSurvey())
+      await sut.add(mockAddSurveyParams())
       const surveyResponse = await surveyCollection.findOne({ question: 'any_question' })
 
       expect(surveyResponse).toBeTruthy()
@@ -80,14 +38,14 @@ describe('Survey Mongo Repository', () => {
     test('should throw if AddSurveyRepository throws', async () => {
       const sut = makeSut()
       jest.spyOn(sut, 'add').mockRejectedValue(new Error())
-      const promise = sut.add(makeFakeSurvey())
+      const promise = sut.add(mockAddSurveyParams())
       await expect(promise).rejects.toThrow()
     })
   })
 
   describe('LoadAll()', () => {
     test('should load all surveys on success', async () => {
-      await surveyCollection.insertMany(makeFakeSurveys())
+      await surveyCollection.insertMany(mockSurveys())
 
       const sut = makeSut()
       const surveys = await sut.loadAll()
@@ -113,7 +71,7 @@ describe('Survey Mongo Repository', () => {
 
   describe('LoadById()', () => {
     test('should load a survey by Id on success', async () => {
-      const res = await surveyCollection.insertOne(makeFakeSurveys()[0])
+      const res = await surveyCollection.insertOne(mockSurveys()[0])
       const sut = makeSut()
       const survey = await sut.loadById(res.ops[0]._id)
       expect(survey).toBeTruthy()

@@ -1,12 +1,8 @@
 import MockDate from 'mockdate'
 import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
-import { AddSurveyParams } from '@/domain/usecases/survey/add-survey'
 import { DbAddSurvey } from '@/data/usecases/survey/add-survey/db-add-survey'
-import { mockError } from '@/domain/test'
-
-class AddSurveyRepositoryStub implements AddSurveyRepository {
-  async add (surveyData: AddSurveyParams): Promise<void> {}
-}
+import { mockError , mockAddSurveyParams } from '@/domain/test'
+import { mockAAddSurveyRepository } from '@/data/test'
 
 type SutTypes = {
   sut: DbAddSurvey
@@ -14,22 +10,13 @@ type SutTypes = {
 }
 
 const makeSut = (): SutTypes => {
-  const addSurveyRepositoryStub = new AddSurveyRepositoryStub()
+  const addSurveyRepositoryStub = mockAAddSurveyRepository()
   const sut = new DbAddSurvey(addSurveyRepositoryStub)
   return {
     sut,
     addSurveyRepositoryStub
   }
 }
-
-const makeFakeData = (): AddSurveyParams => ({
-  question: 'any_question',
-  date: new Date(),
-  answers: [{
-    image: 'any_image',
-    answer: 'any_answer'
-  }]
-})
 
 describe('DBAddSurvey UseCase', () => {
   beforeAll(() => {
@@ -43,14 +30,14 @@ describe('DBAddSurvey UseCase', () => {
   test('should call AddSurveyRepository with correct values', async () => {
     const { sut, addSurveyRepositoryStub } = makeSut()
     const addSurveyRepositorySpy = jest.spyOn(addSurveyRepositoryStub, 'add')
-    await sut.add(makeFakeData())
-    expect(addSurveyRepositorySpy).toHaveBeenCalledWith(makeFakeData())
+    await sut.add(mockAddSurveyParams())
+    expect(addSurveyRepositorySpy).toHaveBeenCalledWith(mockAddSurveyParams())
   })
 
   test('should throw if AddSurveyRepository throws', async () => {
     const { sut, addSurveyRepositoryStub } = makeSut()
     jest.spyOn(addSurveyRepositoryStub, 'add').mockImplementationOnce(mockError)
-    const promise = sut.add(makeFakeData())
+    const promise = sut.add(mockAddSurveyParams())
     await expect(promise).rejects.toThrow()
   })
 })
