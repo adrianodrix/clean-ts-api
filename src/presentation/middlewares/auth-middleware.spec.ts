@@ -5,6 +5,7 @@ import { AccessDeniedError } from '../errors/access-denied-error'
 import { forbidden, ok, serverError } from '../helpers/http/http-helper'
 import { HttpRequest } from '../protocols'
 import { AuthMiddleware } from './auth-middleware'
+import { mockError } from '@/domain/test'
 
 class LoadAccountByTokenStub implements LoadAccountByToken {
   async load (accessToken: string, role?: string): Promise<AccountModel> {
@@ -64,7 +65,7 @@ describe('Auth Middleware', () => {
 
   test('should return 500 if loadAccountByToken throw', async () => {
     const { sut, loadAccountByTokenStub } = makeSut()
-    jest.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(loadAccountByTokenStub, 'load').mockImplementationOnce(mockError)
     const httpReponse = await sut.handle(makeHttpRequest())
     expect(httpReponse).toEqual(serverError(new ServerError('')))
   })

@@ -4,6 +4,7 @@ import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { SurveyMongoRepository } from './survey-mongo-repository'
 import { SurveyModel } from '@/domain/models/survey'
+import { mockError } from '@/domain/test'
 
 let surveyCollection: Collection
 
@@ -79,7 +80,7 @@ describe('Survey Mongo Repository', () => {
 
     test('should throw if AddSurveyRepository throws', async () => {
       const sut = makeSut()
-      jest.spyOn(sut, 'add').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+      jest.spyOn(sut, 'add').mockRejectedValue(new Error())
       const promise = sut.add(makeFakeSurvey())
       await expect(promise).rejects.toThrow()
     })
@@ -105,7 +106,7 @@ describe('Survey Mongo Repository', () => {
 
     test('should throw if LoadSurveyRepository throws', async () => {
       const sut = makeSut()
-      jest.spyOn(sut, 'loadAll').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+      jest.spyOn(sut, 'loadAll').mockRejectedValue(new Error())
       const promise = sut.loadAll()
       await expect(promise).rejects.toThrow()
     })
