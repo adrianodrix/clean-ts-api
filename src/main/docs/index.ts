@@ -1,17 +1,17 @@
 import paths from './paths'
-import schemas from './schemas'
 import components from './components'
+import schemas from './schemas'
 
 export default {
   openapi: '3.0.0',
   info: {
     title: '4Dev - Enquetes para Programadores',
-    description: 'Essa é a documentação da API feita pelo aluno Adriano Santos no curso da Udemy de NodeJs usando Typescript, TDD, Clean Architecture e seguindo os princípios do SOLID e Design Patterns.',
+    description: 'Curso de [NodeJs usando Typescript](https://www.udemy.com/course/tdd-com-mango/?referralCode=B53CE5CA2B9AFA5A6FA1) com [Swagger.io](https://swagger.io/docs/specification/about/)',
     version: '1.0.0',
     contact: {
       name: 'Adriano Santos',
       email: 'adrianodrix@gmail.com',
-      url: 'https://www.linkedin.com/in/adrianodrix'
+      url: 'https://github.com/adrianodrix/clean-ts-api'
     },
     license: {
       name: 'GPL-3.0-or-later',
@@ -25,9 +25,6 @@ export default {
   servers: [{
     url: '/api',
     description: 'Servidor Principal'
-  }, {
-    url: '/sandbox',
-    description: 'Servidor para Testes'
   }],
   tags: [{
     name: 'Login',
