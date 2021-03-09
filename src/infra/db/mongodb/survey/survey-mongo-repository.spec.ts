@@ -4,7 +4,6 @@ import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { SurveyMongoRepository } from './survey-mongo-repository'
 import { SurveyModel } from '@/domain/models/survey'
-import { mockError } from '@/domain/test'
 
 let surveyCollection: Collection
 
