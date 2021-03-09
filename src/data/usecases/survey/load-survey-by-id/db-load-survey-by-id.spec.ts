@@ -2,6 +2,7 @@ import { LoadSurveyByIdRepo } from '@/data/protocols/db/survey/load-surveys-by-i
 import { SurveyModel } from '@/domain/models/survey'
 import MockDate from 'mockdate'
 import { DbLoadSurveyById } from './db-load-survey-by-id'
+import { mockError } from '@/domain/test'
 
 class LoadSurveyByIdRepoStub implements LoadSurveyByIdRepo {
   async loadById (id: String): Promise<SurveyModel> {
@@ -61,7 +62,7 @@ describe('DbLoadSurveyById', () => {
 
   test('should throw if LoadSurveyByIdRepo throws', async () => {
     const { sut, loadSurveyByIdRepoStub } = makeSut()
-    jest.spyOn(loadSurveyByIdRepoStub, 'loadById').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(loadSurveyByIdRepoStub, 'loadById').mockImplementationOnce(mockError)
     const promise = sut.loadById('any_id')
     await expect(promise).rejects.toThrow()
   })

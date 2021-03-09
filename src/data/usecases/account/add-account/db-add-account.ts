@@ -1,7 +1,7 @@
 import { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository'
 import { LoadAccountByEmailRepo } from '@/data/protocols/db/account/load-account-by-email-repo'
 import { AccountModel, Hasher } from '@/data/usecases/account/add-account/db-add-account-protocols'
-import { AddAccount, AddAccountModel } from '@/domain/usecases/account/add-account'
+import { AddAccount, AddAccountParams } from '@/domain/usecases/account/add-account'
 
 export class DbAddAccount implements AddAccount {
   constructor (
@@ -10,7 +10,7 @@ export class DbAddAccount implements AddAccount {
     private readonly loadAccountByEmailRepo: LoadAccountByEmailRepo
   ) {}
 
-  async add (accountData: AddAccountModel): Promise<AccountModel> {
+  async add (accountData: AddAccountParams): Promise<AccountModel> {
     const accountExists = await this.loadAccountByEmailRepo.loadByEmail(accountData.email)
     if (accountExists) return null as any
 
