@@ -5,11 +5,11 @@ import { AuthenticationParams } from '@/domain/usecases/auth/authentication'
 import { UpdateAccessTokenRepo } from '@/data/protocols/db/account/update-access-token-repository'
 import { AccountModel } from '@/data/usecases/account/add-account/db-add-account-protocols'
 import { DbAuhentication } from '@/data/usecases/auth/db-authentication'
-import { mockError } from '@/domain/test'
+import { mockAccountModel, mockError } from '@/domain/test'
 
 class LoadAccountByEmailRepoStub implements LoadAccountByEmailRepo {
   async loadByEmail (email: string): Promise<AccountModel> {
-    return new Promise(resolve => resolve(makeFakeAccount()))
+    return new Promise(resolve => resolve(mockAccountModel()))
   }
 }
 
@@ -30,13 +30,6 @@ class UpdateAccessTokenRepoStub implements UpdateAccessTokenRepo {
 
   }
 }
-
-const makeFakeAccount = (): AccountModel => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'hashed_password'
-})
 
 const makeFakeAuth = (): AuthenticationParams => ({
   email: 'any_email@mail.com',
@@ -114,7 +107,7 @@ describe('DBAuthentication UseCase', () => {
     const { sut, hashComparerStub } = makeSut()
     const comparerSpy = jest.spyOn(hashComparerStub, 'comparer')
     await sut.auth(makeFakeAuth())
-    expect(comparerSpy).toHaveBeenCalledWith('any_password', 'hashed_password')
+    expect(comparerSpy).toHaveBeenCalledWith('any_password', 'any_password')
   })
 
   test('should throw if HashComparer throws', async () => {
