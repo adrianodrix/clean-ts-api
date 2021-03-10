@@ -8,7 +8,7 @@ import { mockSurveys } from '@/domain/test'
 
 class LoadSurveysStub implements LoadSurveys {
   async load (): Promise<SurveyModel[]> {
-    return new Promise(resolve => resolve(mockSurveys()))
+    return Promise.resolve(mockSurveys())
   }
 }
 
@@ -50,7 +50,7 @@ describe('LoadSurveys Controller', () => {
 
   test('should return 204 if LoadSurveys return empty', async () => {
     const { sut, loadSurveysStub } = makeSut()
-    jest.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(new Promise(resolve => resolve([])))
+    jest.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(Promise.resolve([]))
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(noContent())
   })
@@ -58,7 +58,7 @@ describe('LoadSurveys Controller', () => {
   test('should return 500 if LoadSurveys throws', async () => {
     const { sut, loadSurveysStub } = makeSut()
     jest.spyOn(loadSurveysStub, 'load').mockImplementationOnce(async () => {
-      return new Promise((resolve, reject) => reject(new Error()))
+      return Promise.reject(new Error())
     })
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(serverError(new ServerError('')))

@@ -6,7 +6,7 @@ import { mockError, mockSurveys } from '@/domain/test'
 
 class LoadSurveysRepoStub implements LoadSurveysRepo {
   async loadAll (): Promise<SurveyModel[]> {
-    return new Promise(resolve => resolve(mockSurveys()))
+    return Promise.resolve(mockSurveys())
   }
 }
 
