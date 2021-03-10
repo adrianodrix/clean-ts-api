@@ -80,6 +80,7 @@ describe('Survey Results Mongo Repository', () => {
         answer: 'any_answer',
         date: new Date()
       })
+
       const surveryResult2 = await sut.save({
         surveyId: survey.surveyId,
         accountId: survey.accountId,
@@ -88,12 +89,13 @@ describe('Survey Results Mongo Repository', () => {
       })
 
       expect(surveryResult2).toBeTruthy()
+
       expect(surveryResult1?.surveyId).toEqual(surveryResult2.surveyId)
       expect(surveryResult2.answers[0].count).toBe(1)
       expect(surveryResult2.answers[0].percent).toBe(50)
+      expect(surveryResult2?.answers[0].answer).toBe('other_answer')
       expect(surveryResult2.answers[1].count).toBe(1)
       expect(surveryResult2.answers[1].percent).toBe(50)
-      expect(surveryResult2?.answers[1].answer).toBe('other_answer')
     })
   })
 })
