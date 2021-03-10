@@ -32,7 +32,7 @@ const makeFakeSurveyResult = async (): Promise<SaveSurveyResultParams> => {
   return {
     surveyId: survey.id,
     accountId: account.id,
-    answer: survey.answers[0].answer,
+    answer: survey?.answers[0].answer,
     date: new Date()
   }
 }
@@ -60,19 +60,40 @@ describe('Survey Results Mongo Repository', () => {
   describe('Save()', () => {
     test('should return a survey result it its new', async () => {
       const sut = makeSut()
-      const surveryResult = await sut.save(await makeFakeSurveyResult())
+      const surveyParams = await makeFakeSurveyResult()
+      const surveryResult = await sut.save(surveyParams)
+
       expect(surveryResult).toBeTruthy()
-      expect(surveryResult.id).toBeTruthy()
-      expect(surveryResult.answer).toBe('any_answer')
+      expect(surveryResult.surveyId).toEqual(surveyParams.surveyId)
+      expect(surveryResult.answers[0].count).toBe(1)
+      expect(surveryResult.answers[0].percent).toBe(100)
     })
 
     test('should update survey result it its not new', async () => {
       const sut = makeSut()
-      const surveryResult1 = await sut.save(await makeFakeSurveyResult())
-      const surveryResult2 = await sut.save(Object.assign({}, surveryResult1, { answer: 'other_ansser' }))
+      const survey = await makeFakeSurveyResult()
+      const surveryResult1 = await sut.save(survey)
+      const account = MongoHelper.map(await makeAccount())
+      await sut.save({
+        surveyId: survey.surveyId,
+        accountId: account.id,
+        answer: 'any_answer',
+        date: new Date()
+      })
+      const surveryResult2 = await sut.save({
+        surveyId: survey.surveyId,
+        accountId: survey.accountId,
+        answer: 'other_answer',
+        date: new Date()
+      })
 
-      expect(surveryResult1.id).toEqual(surveryResult2.id)
-      expect(surveryResult2.answer).toBe('other_ansser')
+      expect(surveryResult2).toBeTruthy()
+      expect(surveryResult1?.surveyId).toEqual(surveryResult2.surveyId)
+      expect(surveryResult2.answers[0].count).toBe(1)
+      expect(surveryResult2.answers[0].percent).toBe(50)
+      expect(surveryResult2.answers[1].count).toBe(1)
+      expect(surveryResult2.answers[1].percent).toBe(50)
+      expect(surveryResult2?.answers[1].answer).toBe('other_answer')
     })
   })
 })
