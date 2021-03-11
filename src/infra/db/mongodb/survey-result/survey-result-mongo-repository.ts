@@ -7,7 +7,7 @@ import { loadSurveyByIdCriteria } from './criterias/load-survey-by-id-criteria'
 import { LoadSurveyResultRepo } from '@/data/protocols/db/survey-result/load-survey-result-repo'
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository, LoadSurveyResultRepo {
-  async save (data: SaveSurveyResultParams): Promise<SurveyResultModel> {
+  async save (data: SaveSurveyResultParams): Promise<void> {
     const { surveyId, accountId, answer, date } = data
     const surveyResultCollection = await MongoHelper.getCollection('surveyResults')
     await surveyResultCollection.findOneAndUpdate({
@@ -21,8 +21,6 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
     }, {
       upsert: true
     })
-
-    return await this.loadBySurveyId(surveyId)
   }
 
   async loadBySurveyId (surveyId: string): Promise<SurveyResultModel> {
