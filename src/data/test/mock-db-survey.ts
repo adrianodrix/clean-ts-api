@@ -3,6 +3,7 @@ import { SurveyResultModel } from '@/domain/models/survey-result'
 import { mockSurveyModel, mockSurveyResultModel } from '@/domain/test'
 import { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result'
 import { AddSurveyParams } from '@/domain/usecases/survey/add-survey'
+import { LoadSurveyResultRepo } from '../protocols/db/survey-result/load-survey-result-repo'
 import { SaveSurveyResultRepository } from '../protocols/db/survey-result/save-survey-result-repo'
 import { AddSurveyRepository } from '../protocols/db/survey/add-survey-repository'
 import { LoadSurveyByIdRepo } from '../protocols/db/survey/load-surveys-by-id-repository'
@@ -30,4 +31,13 @@ export const mockSaveSurveyResultRepository = (): SaveSurveyResultRepository => 
     }
   }
   return new SaveSurveyResultRepositoryStub()
+}
+
+export const mockLoadSurveyResultRepoStub = (): LoadSurveyResultRepo => {
+  class LoadSurveyResultRepoStub implements LoadSurveyResultRepo {
+    async loadBySurveyId (surveyId: string): Promise<SurveyResultModel> {
+      return Promise.resolve(mockSurveyResultModel())
+    }
+  }
+  return new LoadSurveyResultRepoStub()
 }
