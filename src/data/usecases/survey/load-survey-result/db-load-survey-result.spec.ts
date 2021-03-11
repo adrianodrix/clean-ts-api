@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import { LoadSurveyResultRepo } from '@/data/protocols/db/survey-result/load-survey-result-repo'
 import { LoadSurveyByIdRepo } from '@/data/protocols/db/survey/load-surveys-by-id-repository'
 import { mockLoadSurveyByIdRepo, mockLoadSurveyResultRepoStub } from '@/data/test'
@@ -23,6 +24,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbLoadSurveyResult Usecase', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   test('should call LoadSurveyResultRepo with correct values',async () => {
     const { sut, loadSurveyResultRepoStub } = makeSut()
     const loadBySurveyIdSpy = jest.spyOn(loadSurveyResultRepoStub, 'loadBySurveyId')
@@ -39,12 +48,18 @@ describe('DbLoadSurveyResult Usecase', () => {
 
   test('should call LoadSurveyByIdRepo if LoadSurveyResultRepo returns null', async () => {
     const { sut, loadSurveyResultRepoStub, loadSurveyByIdRepoStub } = makeSut()
-
     jest.spyOn(loadSurveyResultRepoStub, 'loadBySurveyId').mockReturnValueOnce(Promise.resolve(null))
     const loadByIdSpy = jest.spyOn(loadSurveyByIdRepoStub, 'loadById')
-
     await sut.load('any_survey_id')
     expect(loadByIdSpy).toHaveBeenCalledWith('any_survey_id')
+  })
+
+  test('should return surveyResultMoodel with all answers count 0 if LoadSurveyRestultRepo returns null', async () => {
+    const { sut, loadSurveyResultRepoStub } = makeSut()
+    jest.spyOn(loadSurveyResultRepoStub, 'loadBySurveyId').mockReturnValueOnce(Promise.resolve(null))
+    await sut.load('any_survey_id')
+    const surveys = await sut.load('any_survey_id')
+    expect(surveys).toEqual(mockSurveyResultModel())
   })
 
   test('should return a survey result if LoadSurveyResultRepo returns success', async () => {
