@@ -25,7 +25,7 @@ const makeAccount = async (): Promise<AccountModel> => {
   return MongoHelper.map(res.ops[0])
 }
 
-const makeFakeSurveyResult = async (): Promise<SaveSurveyResultParams> => {
+const mockSurveyResult = async (): Promise<SaveSurveyResultParams> => {
   const survey = await makeSurvey()
   const account = await makeAccount()
 
@@ -60,7 +60,7 @@ describe('Survey Results Mongo Repository', () => {
   describe('Save()', () => {
     test('should return a survey result it its new', async () => {
       const sut = makeSut()
-      const surveyParams = await makeFakeSurveyResult()
+      const surveyParams = await mockSurveyResult()
       await sut.save(surveyParams)
 
       const surveyResult = await surveyResultCollection.findOne({
@@ -72,7 +72,7 @@ describe('Survey Results Mongo Repository', () => {
 
     test('should update survey result it its not new', async () => {
       const sut = makeSut()
-      const survey = await makeFakeSurveyResult()
+      const survey = await mockSurveyResult()
       const account = await makeAccount()
 
       await sut.save({

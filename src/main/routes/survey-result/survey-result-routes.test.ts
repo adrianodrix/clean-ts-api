@@ -10,7 +10,7 @@ import { SurveyModel } from '@/domain/models/survey'
 
 let surveyCollection, accountCollection: Collection
 
-const makeFakeSurvey = (): SurveyModel => {
+const mockSurvey = (): SurveyModel => {
   return {
     id: 'any_id',
     question: 'any_question',
@@ -24,7 +24,7 @@ const makeFakeSurvey = (): SurveyModel => {
   }
 }
 
-const makeFakeAccount = async (): Promise<string> => {
+const mockAccount = async (): Promise<string> => {
   const password = await hash('123', 12)
   const res = await accountCollection.insertOne({
     name: 'Adriano Santos',
@@ -74,8 +74,8 @@ describe('SurveyResult Routes', () => {
     })
 
     it('should return 200 on save survey result success', async () => {
-      const accessToken = await makeFakeAccount()
-      const res = await surveyCollection.insertOne(makeFakeSurvey())
+      const accessToken = await mockAccount()
+      const res = await surveyCollection.insertOne(mockSurvey())
       const survey = MongoHelper.map(res.ops[0])
 
       await request(app)
