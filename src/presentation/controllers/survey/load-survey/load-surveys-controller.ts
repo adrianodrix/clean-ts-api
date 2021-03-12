@@ -13,6 +13,7 @@ export class LoadSurveysController implements Controller {
 
       return ok(list)
     } catch (error) {
+      console.log(error)
       return serverError(error)
     }
   }

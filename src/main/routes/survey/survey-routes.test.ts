@@ -28,7 +28,7 @@ beforeEach(async () => {
   await accountCollection.deleteMany({})
 })
 
-const makeFakeSurveys = (): SurveyModel[] => {
+const mockSurveys = (): SurveyModel[] => {
   return [
     {
       id: 'any_id',
@@ -58,7 +58,7 @@ const makeFakeSurveys = (): SurveyModel[] => {
   ]
 }
 
-const makeFakeAccount = async (): Promise<string> => {
+const mockAccount = async (): Promise<string> => {
   const password = await hash('123', 12)
   const res = await accountCollection.insertOne({
     name: 'Adriano Santos',
@@ -96,7 +96,7 @@ describe('POST /surveys', () => {
   })
 
   test('should return 204 when add a survey with valid access token', async () => {
-    const accessToken = await makeFakeAccount()
+    const accessToken = await mockAccount()
 
     await request(app)
       .post('/api/surveys')
@@ -134,7 +134,7 @@ describe('GET /surveys', () => {
   })
 
   test('should return 204 when empty list of the surveys with valid access token', async () => {
-    const accessToken = await makeFakeAccount()
+    const accessToken = await mockAccount()
     await request(app)
       .get('/api/surveys')
       .set('x-access-token', accessToken)
@@ -142,8 +142,8 @@ describe('GET /surveys', () => {
   })
 
   test('should return 200 when list of the surveys with valid access token', async () => {
-    await surveyCollection.insertMany(makeFakeSurveys())
-    const accessToken = await makeFakeAccount()
+    await surveyCollection.insertMany(mockSurveys())
+    const accessToken = await mockAccount()
     await request(app)
       .get('/api/surveys')
       .set('x-access-token', accessToken)
