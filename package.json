@@ -1,7 +1,7 @@
 {
   "name": "clean-ts-api",
   "description": "API em NodeJs usando Typescript, TDD, Clean Architecture, Design Patterns e SOLID principles",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "author": "Adriano Santos <adrianodrix@gmail.com>",
   "license": "MIT",
   "scripts": {
