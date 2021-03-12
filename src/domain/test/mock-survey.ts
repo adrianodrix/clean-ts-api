@@ -11,7 +11,9 @@ export const mockAddSurveyParams = (): AddSurveyParams => ({
     image: 'any_image',
     answer: 'any_answer'
   }, {
-    answer: 'other_answer'
+    answer: 'other_answer_1'
+  }, {
+    answer: 'other_answer_2'
   }]
 })
 
@@ -36,8 +38,26 @@ export const mockSaveSurveyResultParams = (): SaveSurveyResultParams => ({
   date: new Date()
 })
 
-export const mockSurveyResultModel = (): SurveyResultModel => Object.assign({}, mockSaveSurveyResultParams(), {
-  id: 'any_id'
+export const mockSurveyResultModel = (): SurveyResultModel => ({
+  surveyId: 'any_id',
+  question: 'any_qyestion',
+  date: new Date(),
+  answers: [
+    {
+      image: 'any_image',
+      answer: 'any_answer',
+      count: 0,
+      percent: 0.0,
+      isCurrentAccountAnswer: false
+    },
+    {
+      image: 'other_image',
+      answer: 'other_answer',
+      count: 0,
+      percent: 0.0,
+      isCurrentAccountAnswer: true
+    }
+  ]
 })
 
 export const mockSurveys = (): SurveyModel[] => {
