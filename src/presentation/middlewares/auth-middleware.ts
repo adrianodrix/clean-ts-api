@@ -1,4 +1,5 @@
 import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
+import { JsonWebTokenError } from 'jsonwebtoken'
 import { AccountModel } from '../controllers/auth/signup/signup--controller-protocols'
 import { ServerError } from '../errors'
 import { AccessDeniedError } from '../errors/access-denied-error'
@@ -22,6 +23,10 @@ export class AuthMiddleware implements Middleware {
 
       return ok({ accountId: account.id })
     } catch (error) {
+      if (error instanceof JsonWebTokenError) {
+        // if the error thrown is because the JWT is unauthorized, return a 401 error
+        return forbidden(new AccessDeniedError())
+      }
       return serverError(new ServerError(error.stack))
     }
   }

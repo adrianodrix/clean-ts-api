@@ -17,10 +17,13 @@ export const forbidden = (error: Error): HttpResponse => ({
   body: error
 })
 
-export const serverError = (error: Error): HttpResponse => ({
-  statusCode: 500,
-  body: new ServerError(error?.stack)
-})
+export const serverError = (error: Error): HttpResponse => {
+  console.error(error)
+  return {
+    statusCode: 500,
+    body: new ServerError(error?.stack)
+  }
+}
 
 export const created = (data: any): HttpResponse => ({
   statusCode: 201,
