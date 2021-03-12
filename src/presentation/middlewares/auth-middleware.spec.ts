@@ -6,6 +6,7 @@ import { HttpRequest } from '../protocols'
 import { AuthMiddleware } from './auth-middleware'
 import { mockError } from '@/domain/test'
 import { mockLoadAccountByToken } from '@/data/test'
+import { JsonWebTokenError } from 'jsonwebtoken'
 
 type SutTypes = {
   sut: AuthMiddleware
@@ -54,6 +55,13 @@ describe('Auth Middleware', () => {
     jest.spyOn(loadAccountByTokenStub, 'load').mockImplementationOnce(mockError)
     const httpReponse = await sut.handle(makeHttpRequest())
     expect(httpReponse).toEqual(serverError(new ServerError('')))
+  })
+
+  test('should return 403 if loadAccountByToken throw with JsonWebTokenError', async () => {
+    const { sut, loadAccountByTokenStub } = makeSut()
+    jest.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(Promise.reject(new JsonWebTokenError('')))
+    const httpReponse = await sut.handle(makeHttpRequest())
+    expect(httpReponse).toEqual(forbidden(new AccessDeniedError()))
   })
 
   test('should return 200 if loadAccountByToken returns an account', async () => {
